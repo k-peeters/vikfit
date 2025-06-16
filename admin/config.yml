@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: k-peeters/vikfit
   branch: main
 
 media_folder: "images/uploads"
