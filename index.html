@@ -1106,21 +1106,25 @@
   import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
 
   function extractMetaAndContent(md) {
-    const metaRegex = /<!--([\s\S]*?)-->/;
-    const metaMatch = md.match(metaRegex);
+  const metaRegex = /^<!--([\s\S]*?)-->/;
+  const metaMatch = md.match(metaRegex);
 
-    const meta = {};
-    if (metaMatch) {
-      const lines = metaMatch[1].trim().split('\n');
-      lines.forEach(line => {
-        const [key, ...rest] = line.split(':');
-        meta[key.trim()] = rest.join(':').trim();
-      });
-    }
+  const meta = {};
+  let content = md;
 
-    const content = md.replace(metaRegex, '').trim();
-    return { meta, content };
+  if (metaMatch) {
+    const lines = metaMatch[1].trim().split('\n');
+    lines.forEach(line => {
+      const [key, ...rest] = line.split(':');
+      meta[key.trim()] = rest.join(':').trim();
+    });
+
+    content = md.slice(metaMatch[0].length).trim(); // Verwijder frontmatter-blok uit content
   }
+
+  return { meta, content };
+}
+
 
   async function loadPosts() {
     const files = ['2025-06-16-testpost.md'];
