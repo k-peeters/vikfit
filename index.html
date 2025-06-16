@@ -6,8 +6,9 @@
     <title>Vikfit - Jouw Fitnesspartner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="icon" type="image/png" href="Images/vikfitlogo-modified.png">
-    <script src="https://cdn.jsdelivr.net/npm/front-matter@4.0.2/dist/front-matter.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/front-matter@4.0.2/dist/front-matter.min.js"></script>
     <style>
       html {
     scroll-behavior: smooth;
@@ -1101,40 +1102,49 @@
     <p>&copy; 2025 Vikfit. Alle rechten voorbehouden.</p>
   </div>
   <!-- Markdown parser -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
   async function loadPosts() {
-  const files = [
-    '2025-06-16-testpost.md'
-  ];
+    const files = [
+      '2025-06-16-testpost.md'
+      // voeg andere bestandsnamen toe als je wil
+    ];
 
-  for (const file of files) {
-    const res = await fetch(`/vikposts/${file}`);
-    const rawMarkdown = await res.text();
-    const fm = frontMatter(rawMarkdown); // <-- frontmatter-parsing
+    const container = document.getElementById("posts");
 
-    const title = fm.attributes.title || file.replace(/\.md$/, "");
-    const date = fm.attributes.date || "";
-    const content = marked.parse(fm.body);
+    for (const file of files) {
+      try {
+        const res = await fetch(`/vikposts/${file}`);
+        if (!res.ok) throw new Error(`Bestand niet gevonden: ${file}`);
+        const raw = await res.text();
 
-    const card = `
-      <div class="review-card">
-        <div class="review-header">
-          <h3 class="review-name">${title}</h3>
-        </div>
-        <div class="review-comment">
-          <p><em>${new Date(date).toLocaleDateString('nl-BE')}</em></p>
-          ${content}
-        </div>
-      </div>
-    `;
-    document.getElementById("posts").innerHTML += card;
+        const parsed = frontMatter(raw);
+        const title = parsed.attributes.title || file.replace(/\.md$/, '');
+        const date = parsed.attributes.date
+          ? new Date(parsed.attributes.date).toLocaleDateString("nl-BE")
+          : "";
+        const image = parsed.attributes.image || "";
+        const body = marked.parse(parsed.body);
+
+        const card = `
+          <div class="review-card">
+            <div class="review-header">
+              <h3 class="review-name">${title}</h3>
+            </div>
+            ${date ? `<p style="font-size: 0.85rem; color: #999; margin-top: -0.5rem;">${date}</p>` : ""}
+            ${image ? `<img src="${image}" alt="${title}" style="width:100%; border-radius: 10px; margin: 0.5rem 0;">` : ""}
+            <div class="review-comment">${body}</div>
+          </div>
+        `;
+        container.innerHTML += card;
+      } catch (error) {
+        console.error("Fout bij laden van post:", file, error);
+      }
+    }
   }
-}
-
 
   document.addEventListener("DOMContentLoaded", loadPosts);
 </script>
+
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
