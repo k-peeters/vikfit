@@ -942,7 +942,11 @@
       <img src="Images//personaltraining.jpg" alt="" class="pic">
     </div>
     </section>
-    
+    <section class="updates" id="updates">
+  <h2>Laatste Posts</h2>
+  <div id="posts" class="review-container"></div>
+</section>
+
     <section class="reviews" id="reviews">
       <h2>Reviews</h2>
       <section class="info">
@@ -1095,6 +1099,56 @@
 <div class="footer-bottom">
     <p>&copy; 2025 Vikfit. Alle rechten voorbehouden.</p>
   </div>
+  <!-- Markdown parser -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  async function loadPosts() {
+    const folder = '/vikposts/';
+
+    // Haal de lijst van bestanden op via de GitHub API (optioneel kun je deze hardcoderen)
+    const files = [
+      '2025-06-17-test.md',
+      '2025-06-15-workouttips.md'
+    ];
+
+    for (const file of files) {
+      const res = await fetch(folder + file);
+      const raw = await res.text();
+
+      // Frontmatter splitsen
+      const frontmatterMatch = raw.match(/^---\s*([\s\S]*?)\s*---\s*([\s\S]*)$/);
+
+      if (!frontmatterMatch) continue;
+
+      const frontmatterRaw = frontmatterMatch[1];
+      const bodyMarkdown = frontmatterMatch[2];
+
+      // Frontmatter uitlezen als key-value pairs
+      const frontmatter = {};
+      frontmatterRaw.split('\n').forEach(line => {
+        const [key, ...valueParts] = line.split(':');
+        frontmatter[key.trim()] = valueParts.join(':').trim().replace(/^"|"$/g, '');
+      });
+
+      const html = marked.parse(bodyMarkdown);
+
+      const card = `
+        <div class="review-card">
+          <div class="review-header">
+            <h3 class="review-name">${frontmatter.title || file}</h3>
+            <small>${frontmatter.date || ''}</small>
+          </div>
+          <div class="review-comment">${html}</div>
+        </div>
+      `;
+
+      document.getElementById("posts").innerHTML += card;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadPosts);
+</script>
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
       const images = document.querySelectorAll(".pic-ctn img");
