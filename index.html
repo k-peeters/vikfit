@@ -1,0 +1,1269 @@
+  <!DOCTYPE html>
+  <html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vikfit - Jouw Fitnesspartner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="icon" type="image/png" href="Images/vikfitlogo-modified.png">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+      html {
+    scroll-behavior: smooth;
+  }
+      :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #1e1e2f;
+        --accent-color: #ffd166;
+        --text-light: #f1f1f1;
+        --text-dark: #2d2d2d;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+      }
+
+      body {
+        background-color: var(--secondary-color);
+        color: var(--text-light);
+        line-height: 1.6;
+      }
+
+      header {
+    background: url('images/zaalEcht.jpg') center/cover no-repeat;
+    min-height: 400px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+  }
+
+  header .logo {
+    max-width: 220px;
+    width: 40vw;
+    height: auto;
+    z-index: 1;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+
+  header p {
+    z-index: 1;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    color: var(--text-light);
+    max-width: 90%;
+    line-height: 1.4;
+  }
+
+  .carousel-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem auto;
+    width: 100%;
+  }
+
+  .carousel {
+    --items: 6;
+    --carousel-duration: 65s;
+    --carousel-width: min(80vw, 1200px);
+    --carousel-item-width: 280px;
+    --carousel-item-height: 450px;
+    --carousel-item-gap: 2rem;
+    --clr-cta: rgb(0, 132, 209);
+
+    position: relative;
+    width: var(--carousel-width);
+    height: var(--carousel-item-height);
+    overflow: clip;
+    display: block;
+  }
+
+  .carousel[mask] {
+    mask-image: linear-gradient(to right, transparent, black 10% 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10% 90%, transparent);
+  }
+
+  .carousel > article {
+      display: flex;
+  flex-direction: column;
+
+    position: absolute;
+    top: 0;
+    left: calc(100% + var(--carousel-item-gap));
+    width: var(--carousel-item-width);
+    height: var(--carousel-item-height);
+    grid-template-rows: 200px auto 1fr auto;
+    gap: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-radius: 10px;
+    padding-bottom: 1rem;
+
+    animation-name: marquee;
+    animation-duration: var(--carousel-duration);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-delay: calc(var(--carousel-duration) / var(--items) * var(--i) * -1);
+    will-change: transform;
+  }
+
+  .carousel article:nth-child(1) { --i: 0; }
+  .carousel article:nth-child(2) { --i: 1; }
+  .carousel article:nth-child(3) { --i: 2; }
+  .carousel article:nth-child(4) { --i: 3; }
+  .carousel article:nth-child(5) { --i: 4; }
+  .carousel article:nth-child(6) { --i: 5; }
+
+  .carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+  }
+  .carousel > article > div {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 0.8rem;
+  }
+
+  .carousel > article > *:not(img) {
+    padding: 0 1rem;
+  }
+
+  .carousel > article h2 {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0;
+    padding: 0.75rem 0 0.25rem;
+    margin-left: 15px;
+  }
+
+  .carousel > article p {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .carousel > article a {
+    text-decoration: none;
+    border: 1px solid var(--clr-cta);
+    color: white;
+    border-radius: 3px;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.2s ease-in-out;
+    
+    margin-top: auto; /* <-- zorgt dat de link altijd naar beneden duwt */
+    align-self: flex-start;
+  }
+
+
+  .carousel > article a:hover {
+    background-color: var(--clr-cta);
+    color: white;
+  }
+
+  @keyframes marquee {
+    100% {
+      transform: translateX(calc((var(--items) * (var(--carousel-item-width) + var(--carousel-item-gap))) * -1));
+    }
+  }
+
+
+      .intro, .timeline, .info, .appointment, .reviews {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .slideshow{
+        padding: 2rem;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .intro h2, .timeline h2, .info h2, .appointment h2, .slideshow h2, .reviews h2{
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+      }
+
+      .timeline .step {
+        margin-bottom: 1.5rem;
+        background: #2f2f45;
+        padding: 1rem;
+        border-left: 4px solid var(--accent-color);
+      }
+
+      .appointment form {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .appointment input, .appointment textarea {
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: none;
+        background: #e0e0e0;
+        color: var(--text-dark);
+      }
+
+      .appointment button {
+        background: var(--accent-color);
+        color: var(--text-dark);
+        border: none;
+        padding: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-size: 1rem;
+      }
+
+      .appointment button:hover {
+        background: #ffd700;
+      }
+
+      footer {
+        background: #111;
+        padding: 1rem;
+        text-align: center;
+        color: var(--text-light);
+      }
+
+      @media (max-width: 768px) {
+    header {
+      height: 300px;
+    }
+
+    header .logo {
+      max-width: 150px;
+    }
+
+    .quick-nav {
+      display: none;
+  }
+  }
+
+  .review-container,
+  .extra-reviews {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+
+  .review-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+
+    width: 100%;
+    max-width: 320px;
+    height: 240px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+
+
+  .review-card:hover {
+    transform: scale(1.02);
+  }
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+
+  .review-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1e1e2f;
+  }
+
+  .review-stars .star {
+    font-size: 1.2rem;
+    color: #ffd700;
+  }
+
+  .review-stars .empty {
+    color: #e0e0e0;
+  }
+
+  .review-comment {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333333;
+    margin-top: 0.25rem;
+  }
+
+
+
+  .about-us {
+    padding: 3rem 2rem;
+    background-color: #2f2f45;
+    color: var(--text-light);
+  }
+
+  .about-us {
+    background-color: #2f2f45;
+    padding: 3rem 1rem;
+  }
+
+  .about-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto; /* centreert de inhoud horizontaal */
+    align-items: flex-start;
+  }
+
+  .about-image {
+    flex: 0 0 auto;
+    width: 250px;
+  }
+
+  .about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    object-fit: cover;
+  }
+
+  .about-text {
+    flex: 1;
+    min-width: 300px;
+    color: var(--text-light);
+  }
+
+  .about-text h2 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+
+  .about-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    header {
+      min-height: 400px;
+      padding: 3rem 1rem;
+    }
+
+    header .logo {
+      max-width: 160px;
+      width: 50vw;
+    }
+
+    header p {
+      font-size: 1.25rem;
+    }
+    .about-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .about-text {
+      text-align: left;
+    }
+    .slideshow {
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    .slideshow h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .info {
+      padding-top: 0;
+    }
+
+    .review-container,
+    .extra-reviews {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .review-card {
+      width: 70vw;         /* Gelijke breedte voor alle cards */
+      max-width: 90vw;
+      height: auto;        /* Hoogte mag verschillend zijn */
+    }
+  }
+  /* Zorg voor een limiet op de eerste rij */
+  #reviewContainer.collapsed {
+    max-height: 600px; /* afhankelijk van kaartgrootte, past bij 2 rijen */
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Knop styling */
+  .review-toggle {
+    text-align: center;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+
+  .review-toggle button {
+    background-color: #ffd166;
+    color: var(--text-dark);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+  }
+
+  .review-toggle button:hover {
+    background-color: #ffd700;
+  }
+  .extra-reviews {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+  }
+
+
+
+  .extra-reviews.show {
+    max-height: 2000px; /* groot genoeg voor meerdere rows */
+    opacity: 1;
+  }
+
+  .extra-review {
+    display: none;
+  }
+
+  .extra-review.show {
+    display: flex;
+  }
+  @media (max-width: 500px) {
+    .about-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .about-text {
+      text-align: left;
+    }
+    .about-image{
+      width: 55%;
+    }
+  }
+
+  .pic-ctn {
+    width: 100vw;
+    height: 200px;
+  }
+
+  @keyframes display {
+    0% {
+      transform: translateX(200px);
+      opacity: 0;
+    }
+    10% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    20% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    30% {
+      transform: translateX(-200px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(-200px);
+      opacity: 0;
+    }
+  }
+  .pic-ctn {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin: 2rem auto;
+    overflow: hidden;
+    border-radius: 12px;
+    justify-content: center;
+  }
+
+  .pic-ctn img {
+    position: absolute;
+    top: 0;
+    left: 7%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+    height: 100%;
+    border-radius: 2%;
+  }
+
+  .pic-ctn img.active {
+    opacity: 1;
+    z-index: 1;
+  }
+  .quick-nav {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    z-index: 2;
+    background-color: rgba(47, 47, 69, 0.50);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+  }
+
+  .quick-nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .quick-nav a {
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .quick-nav a:hover {
+    color: white;
+  }
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    background: #2f2f45;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .calendar .disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: default;
+    background: #3f3f5c;
+  }
+
+  .calendar .clickable {
+    cursor: pointer;
+    background: #3f3f5c;
+    transition: background 0.3s;
+  }
+
+  .calendar .clickable:hover {
+    background: var(--accent-color);
+    color: var(--text-dark);
+  }
+  .calendar div {
+    text-align: center;
+    padding: 0.75rem;
+    background: #3f3f5c;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: var(--text-light);
+  }
+
+  .calendar div:hover {
+    background: var(--accent-color);
+    color: var(--text-dark);
+  }
+
+  .calendar .day-name {
+    font-weight: bold;
+    background: transparent;
+    cursor: default;
+    color: var(--accent-color);
+  }
+
+  .calendar .selected {
+    background: var(--accent-color) !important;
+    color: var(--text-dark);
+  }
+
+  #timeslot {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    background: #e0e0e0;
+    color: var(--text-dark);
+  }
+
+  #timeslot-container {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .appointment-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .appointment-left,
+  .appointment-right {
+    width: 100%;
+  }
+  .appointment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  .form-section {
+    width: 100%;
+    max-width: 1200px;
+  }
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-fields,
+  .form-calendar {
+    flex: 1;
+  }
+  .form-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 500px;
+  }
+  .calendar-section {
+    width: 100%;
+  }
+  @media (max-width: 768px) {
+    .calendar {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.4rem;
+    }
+
+    .calendar div {
+      font-size: 0.85rem;
+      padding: 0.6rem;
+    }
+    .back-to-top {
+    display: none;
+  }
+  }
+  @media (min-width: 900px) {
+    .appointment-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 4rem;
+    }
+
+    .appointment-left,
+    .appointment-right {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .appointment-form {
+      width: 100%;
+      max-width: 100%;
+      margin-top: 100px;
+    }
+
+    .appointment-form button {
+      align-self: flex-start;
+    }
+    .btn-app{
+      margin-top: 35px;
+    }
+    .appointment{
+      height: 720px;
+    }
+  }
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .calendar-header button {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .calendar-header button:hover {
+    background: var(--accent-color);
+    border: none;
+    color: var(--text-dark);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .calendar .today {
+    border: 2px solid var(--accent-color);
+  }
+  .site-footer {
+  background-color: #2f2f45;
+  color: #f1f1f1;
+  padding: 2rem 1rem 1rem;
+  font-size: 0.95rem;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-left, .footer-middle, .footer-right {
+  flex: 1;
+  min-width: 200px;
+}
+.footer-container h3 {
+  font-size: 1.1rem;
+  color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-logo {
+  margin-top: 0.5rem;
+  max-width: 80px;
+  border-radius: 50%;
+  margin-bottom: 0.4rem;
+}
+
+.footer-middle ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-middle ul li {
+  margin-bottom: 0.4rem;
+}
+
+.footer-middle ul li a {
+  text-decoration: none;
+  color: #f1f1f1;
+  transition: color 0.3s;
+}
+
+.footer-middle ul li a:hover {
+  color: #ffd166;
+}
+.footer a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: color 0.3s;
+}
+
+.footer a:hover {
+  color: var(--accent-color);
+}
+
+.socials {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-bottom: 0.575rem;
+  margin-top: 0.575rem;
+  font-size: 0.85rem;
+  color: #ccc;
+  background-color: #1e1e2f;
+}
+.socials i {
+  font-size: 1.5rem;
+  color: #f1f1f1;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.socials i:hover {
+  transform: scale(1.2);
+  color: var(--accent-color);
+}
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-column h3 {
+  margin-bottom: 0.5rem;
+}
+.back-to-top {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.back-to-top a {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--accent-color);
+  color: var(--text-dark);
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.back-to-top a:hover {
+  background-color: #ffd700;
+  transform: translateY(-2px);
+}
+
+.back-to-top i {
+  margin-right: 0.5rem;
+}
+
+    </style>
+  </head>
+  <body id="top">
+    <header>
+    <nav class="quick-nav">
+      <ul>
+        <li><a href="#about">Wie zijn we?</a></li>
+        <li><a href="#aanpak">Aanpak</a></li>
+        <li><a href="#sfeerbeelden">Sfeerbeelden</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#afspraak">Afspraak</a></li>
+      </ul>
+    </nav>
+    <img src="images/vikfitlogo.jpg" alt="Vikfit logo" class="logo" />
+    <p>Word de beste versie van jezelf met Vikfit!</p>
+  </header>
+    <section class="about-us" id="about">
+    <div class="about-container">
+      <div class="about-image">
+        <img src="images/viktor.jpeg" alt="Vikfit Team">
+      </div>
+      <div class="about-text">
+        <h2>Wie zijn we?</h2>
+        <p>
+          Vikfit is een hechte community van gepassioneerde coaches en sporters.
+          Ons team zet zich elke dag in om mensen te motiveren en hun doelen te laten bereiken.
+          Met een persoonlijke aanpak, wetenschappelijke begeleiding en tonnen energie staan we klaar voor jou!
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+    <section class="timeline" id="aanpak">
+      <h2>Onze Aanpak</h2>
+      <div class="step">
+        <h3>1. Intakegesprek</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
+      </div>
+      <div class="step">
+        <h3>2. Lichaamsanalyse</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
+      </div>
+      <div class="step">
+        <h3>3. Persoonlijk Plan</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
+      </div>
+      <div class="step">
+        <h3>4. Begeleide Workouts</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
+      </div>
+      <div class="step">
+        <h3>5. Evaluatie en opvolging</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.</p>
+      </div>
+    </section>
+    <section class="slideshow" id="sfeerbeelden">
+      <h2>Sfeerbeelden</h2>
+      <div class="pic-ctn">
+      <img src="Images//personaltraining.jpg" alt="" class="pic active">
+      <img src="Images//zaalEcht.jpg" alt="" class="pic">
+      <img src="Images//sfeerbeeld1.jpg" alt="" class="pic">
+      <img src="Images//personaltraining.jpg" alt="" class="pic">
+      <img src="Images//personaltraining.jpg" alt="" class="pic">
+    </div>
+    </section>
+    
+    <section class="reviews" id="reviews">
+      <h2>Reviews</h2>
+      <section class="info">
+      <div class="review-container" id="reviewContainer">
+    <div class="review-card">
+      <div class="review-header">
+        <h3 class="review-name">Sarah D.</h3>
+        <div class="review-stars">
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star empty">&#9733;</span>
+        </div>
+      </div>
+      <p class="review-comment">
+        Super fijne ervaring bij Vikfit! De begeleiding is top en ik voel me elke keer gemotiveerd.
+      </p>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <h3 class="review-name">Tom V.</h3>
+        <div class="review-stars">
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star empty">&#9733;</span>
+          <span class="star empty">&#9733;</span>
+        </div>
+      </div>
+      <p class="review-comment">
+        Goed materiaal en leuke sfeer, alleen soms wat druk op piekmomenten.
+      </p>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <h3 class="review-name">Lisa K.</h3>
+        <div class="review-stars">
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+        </div>
+      </div>
+      <p class="review-comment">
+        Absoluut een aanrader! Persoonlijke begeleiding en leuke community.
+      </p>
+    </div>
+    <div class="review-card extra-review">
+      <div class="review-header">
+        <h3 class="review-name">Kyano P.</h3>
+        <div class="review-stars">
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+        </div>
+      </div>
+      <p class="review-comment">
+        Toffe Pee!
+      </p>
+    </div>
+    <div class="review-card extra-review">
+      <div class="review-header">
+        <h3 class="review-name">Kobe J.</h3>
+        <div class="review-stars">
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star full">&#9733;</span>
+          <span class="star empty">&#9733;</span>
+          <span class="star empty">&#9733;</span>
+        </div>
+      </div>
+      <p class="review-comment">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis magnam corrupti necessitatibus repudiandae culpa ab provident ex, dolorum dolores accusantium adipisci facere omnis eaque, eligendi dicta quae accusamus aut atque!
+      </p>
+    </div>
+
+  <div class="review-toggle">
+      <button id="toggleReviews">Meer tonen ▼</button>
+    </div>
+    </div>
+    </section>
+    </section>
+
+    <section class="appointment" id="afspraak">
+    <h2>Maak een Afspraak</h2>
+    <div class="appointment-wrapper">
+      <div class="appointment-right">
+        <label for="calendar">Kies een datum:</label>
+        <div id="calendar-header" class="calendar-header"></div>
+        <div id="calendar" class="calendar"></div>
+        <div id="timeslot-container" style="display: none;">
+          <label for="timeslot">Kies een tijdslot:</label>
+          <select id="timeslot" name="timeslot" required></select>
+        </div>
+      </div>
+      <div class="appointment-left">
+        <form class="appointment-form">
+          <label for="name">Naam:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">E-mailadres:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">Extra info:</label>
+          <textarea id="message" name="message"></textarea>
+
+          <button type="submit" class="btn-app">Afspraak maken</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+    <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-column footer-left">
+  <h3>Volg ons</h3>
+  <div class="socials">
+    <a href="https://www.instagram.com/vikfit_be/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/profile.php?id=61569858462834" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+  </div>
+  <div class="back-to-top">
+  <a href="#top"><i class="fas fa-arrow-up"></i> Naar boven</a>
+</div>
+</div> 
+    <div class="footer-middle">
+      <h3>Menu</h3>
+      <ul>
+        <li><a href="#about">Wie zijn we?</a></li>
+        <li><a href="#aanpak">Onze aanpak</a></li>
+        <li><a href="#sfeerbeelden">Sfeerbeelden</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#afspraak">Afspraak</a></li>
+      </ul>
+    </div>
+    <div class="footer-right">
+      <h3>Vikfit</h3>
+      <img src="images/vikfitlogo.jpg" alt="Vikfit logo" class="footer-logo" />
+      <p>Vikfit – Word de beste versie van jezelf.</p>
+    </div>
+  </div>
+  
+</footer>
+<div class="footer-bottom">
+    <p>&copy; 2025 Vikfit. Alle rechten voorbehouden.</p>
+  </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+      const images = document.querySelectorAll(".pic-ctn img");
+      let current = 0;
+
+      setInterval(() => {
+        images[current].classList.remove("active");
+        current = (current + 1) % images.length;
+        images[current].classList.add("active");
+      }, 3000); // elke 3 seconden wisselen
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("toggleReviews");
+    const extraReviewCards = document.querySelectorAll(".extra-review");
+
+    let isExpanded = false;
+
+    toggleBtn.addEventListener("click", () => {
+      extraReviewCards.forEach(card => {
+        card.classList.toggle("show");
+      });
+
+      toggleBtn.textContent = isExpanded ? "Meer tonen ▼" : "Minder tonen ▲";
+      isExpanded = !isExpanded;
+    });
+  });
+
+    </script>
+   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      emailjs.init("ewa00BIQami5aRbCi");
+
+      const calendar = document.getElementById("calendar");
+      const header = document.getElementById("calendar-header");
+      const timeslotContainer = document.getElementById("timeslot-container");
+      const timeslotSelect = document.getElementById("timeslot");
+
+      let current = new Date();
+      let selectedDate = null;
+      const dayNames = ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"];
+
+      function renderCalendar(date) {
+        calendar.innerHTML = "";
+        header.innerHTML = "";
+
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const today = new Date();
+
+        const prevBtn = document.createElement("button");
+        prevBtn.innerHTML = "←";
+        prevBtn.onclick = () => {
+          current.setMonth(current.getMonth() - 1);
+          renderCalendar(current);
+        };
+
+        const nextBtn = document.createElement("button");
+        nextBtn.innerHTML = "→";
+        nextBtn.onclick = () => {
+          current.setMonth(current.getMonth() + 1);
+          renderCalendar(current);
+        };
+
+        const title = document.createElement("div");
+        title.textContent = `${date.toLocaleString("nl-BE", { month: "long" })} ${year}`;
+        header.appendChild(prevBtn);
+        header.appendChild(title);
+        header.appendChild(nextBtn);
+
+        dayNames.forEach(name => {
+          const el = document.createElement("div");
+          el.textContent = name;
+          el.classList.add("day-name");
+          calendar.appendChild(el);
+        });
+
+        const firstDay = new Date(year, month, 1);
+        const startOffset = (firstDay.getDay() + 6) % 7;
+
+        for (let i = 0; i < startOffset; i++) {
+          const empty = document.createElement("div");
+          empty.classList.add("empty");
+          empty.style.visibility = "hidden";
+          calendar.appendChild(empty);
+        }
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const cellDate = new Date(year, month, day);
+          const rawDay = cellDate.getDay();
+          const dayOfWeek = (rawDay + 6) % 7;
+
+          const el = document.createElement("div");
+          el.textContent = day;
+
+          if (
+            cellDate.getDate() === today.getDate() &&
+            cellDate.getMonth() === today.getMonth() &&
+            cellDate.getFullYear() === today.getFullYear()
+          ) {
+            el.classList.add("today");
+          }
+
+          if (dayOfWeek === 5 || dayOfWeek === 6) {
+            el.classList.add("clickable");
+            el.addEventListener("click", () => {
+              document.querySelectorAll(".calendar .clickable").forEach(d => d.classList.remove("selected"));
+              el.classList.add("selected");
+              selectedDate = cellDate;
+
+              timeslotSelect.innerHTML = "";
+              for (let hour = 8; hour <= 13; hour++) {
+                const option = document.createElement("option");
+                option.value = `${String(hour).padStart(2, "0")}:00`;
+                option.textContent = option.value;
+                timeslotSelect.appendChild(option);
+              }
+              timeslotContainer.style.display = "block";
+            });
+          } else {
+            el.classList.add("disabled");
+          }
+
+          calendar.appendChild(el);
+        }
+      }
+
+      renderCalendar(current);
+
+      const form = document.querySelector(".appointment-form");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const naam = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const extraInfo = document.getElementById("message").value;
+        const datum = selectedDate ? selectedDate.toLocaleDateString("nl-BE") : "";
+        const tijdslot = document.getElementById("timeslot").value;
+
+        if (!datum || !tijdslot) {
+          alert("Gelieve een datum en tijdslot te kiezen.");
+          return;
+        }
+
+        const templateParams = {
+          naam,
+          email,
+          extra_info: extraInfo,
+          datum,
+          tijdslot,
+          reply_to: email
+        };
+
+        emailjs.send("service_k5ydqtr", "template_awkx0rs", templateParams)
+          .then(() => {
+            alert("Afspraak succesvol verstuurd!");
+            form.reset();
+            timeslotContainer.style.display = "none";
+            document.querySelectorAll(".calendar .selected").forEach(d => d.classList.remove("selected"));
+          })
+          .catch((error) => {
+            alert("Er is iets misgelopen bij het versturen van de e-mail.");
+            console.error(error);
+          });
+      });
+    });
+  </script>
+  </body>
+  </html>
