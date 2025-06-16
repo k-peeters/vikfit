@@ -14,5 +14,5 @@ collections:
     fields:
       - { label: "Titel", name: "title", widget: "string" }
       - { label: "Datum", name: "date", widget: "datetime" }
-      - { label: "Foto", name: "image", widget: "image" }
+      - { label: "Afbeelding", name: "image", widget: "image" }
       - { label: "Bericht", name: "body", widget: "markdown" }
