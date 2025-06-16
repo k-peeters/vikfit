@@ -1,9 +1,18 @@
+[build]
+  command = "node generate-index.js"
+  publish = "."
+
+[[plugins]]
+  package = "@netlify/plugin-local-install-core"
+  
 [[redirects]]
 from = "/invite*"
 to = "/admin"
 status = 301
 force = true
+
 [[redirects]]
   from = "/vikposts/*"
   to = "/vikposts/:splat"
   status = 200
+
