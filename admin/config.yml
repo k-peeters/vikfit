@@ -3,8 +3,8 @@ backend:
   repo: k-peeters/vikfit
   branch: main
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+media_folder: "Images/uploads"
+public_folder: "/Images/uploads"
 
 collections:
   - name: "vikposts"
