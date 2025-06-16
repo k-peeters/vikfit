@@ -1102,14 +1102,12 @@
     <p>&copy; 2025 Vikfit. Alle rechten voorbehouden.</p>
   </div>
   <!-- Markdown parser -->
-<script>
-  async function loadPosts() {
-    const frontMatter = window.frontMatter;
-    const files = [
-      '2025-06-16-testpost.md'
-      // voeg andere bestandsnamen toe als je wil
-    ];
+<script type="module">
+  import frontMatter from 'https://cdn.jsdelivr.net/npm/front-matter@4.0.2/dist/front-matter.module.js';
+  import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
 
+  async function loadPosts() {
+    const files = ['2025-06-16-testpost.md'];
     const container = document.getElementById("posts");
 
     for (const file of files) {
@@ -1118,21 +1116,21 @@
         if (!res.ok) throw new Error(`Bestand niet gevonden: ${file}`);
         const raw = await res.text();
 
-       const parsed = frontMatter.parse(raw);
+        const parsed = frontMatter(raw);
         const title = parsed.attributes.title || file.replace(/\.md$/, '');
         const date = parsed.attributes.date
           ? new Date(parsed.attributes.date).toLocaleDateString("nl-BE")
-          : "";
-        const image = parsed.attributes.image || "";
-        const body = marked.parse(parsed.body);
+          : '';
+        const image = parsed.attributes.image || '';
+        const body = marked(parsed.body);
 
         const card = `
           <div class="review-card">
             <div class="review-header">
               <h3 class="review-name">${title}</h3>
             </div>
-            ${date ? `<p style="font-size: 0.85rem; color: #999; margin-top: -0.5rem;">${date}</p>` : ""}
-            ${image ? `<img src="${image}" alt="${title}" style="width:100%; border-radius: 10px; margin: 0.5rem 0;">` : ""}
+            ${date ? `<p style="font-size: 0.85rem; color: #999; margin-top: -0.5rem;">${date}</p>` : ''}
+            ${image ? `<img src="${image}" alt="${title}" style="width:100%; border-radius: 10px; margin: 0.5rem 0;">` : ''}
             <div class="review-comment">${body}</div>
           </div>
         `;
@@ -1145,6 +1143,7 @@
 
   document.addEventListener("DOMContentLoaded", loadPosts);
 </script>
+
 
 
     <script>
