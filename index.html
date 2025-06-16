@@ -1103,47 +1103,34 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
   async function loadPosts() {
-    const folder = '/vikposts/';
+  const files = [
+    '2025-06-16-testpost.md'
+  ];
 
-    // Haal de lijst van bestanden op via de GitHub API (optioneel kun je deze hardcoderen)
-    const files = [
-      'vikposts/2025-06-16-testpost.md'
-    ];
+  for (const file of files) {
+    const res = await fetch(`/vikposts/${file}`);
+    const rawMarkdown = await res.text();
+    const fm = frontMatter(rawMarkdown); // <-- frontmatter-parsing
 
-    for (const file of files) {
-      const res = await fetch(folder + file);
-      const raw = await res.text();
+    const title = fm.attributes.title || file.replace(/\.md$/, "");
+    const date = fm.attributes.date || "";
+    const content = marked.parse(fm.body);
 
-      // Frontmatter splitsen
-      const frontmatterMatch = raw.match(/^---\s*([\s\S]*?)\s*---\s*([\s\S]*)$/);
-
-      if (!frontmatterMatch) continue;
-
-      const frontmatterRaw = frontmatterMatch[1];
-      const bodyMarkdown = frontmatterMatch[2];
-
-      // Frontmatter uitlezen als key-value pairs
-      const frontmatter = {};
-      frontmatterRaw.split('\n').forEach(line => {
-        const [key, ...valueParts] = line.split(':');
-        frontmatter[key.trim()] = valueParts.join(':').trim().replace(/^"|"$/g, '');
-      });
-
-      const html = marked.parse(bodyMarkdown);
-
-      const card = `
-        <div class="review-card">
-          <div class="review-header">
-            <h3 class="review-name">${frontmatter.title || file}</h3>
-            <small>${frontmatter.date || ''}</small>
-          </div>
-          <div class="review-comment">${html}</div>
+    const card = `
+      <div class="review-card">
+        <div class="review-header">
+          <h3 class="review-name">${title}</h3>
         </div>
-      `;
-
-      document.getElementById("posts").innerHTML += card;
-    }
+        <div class="review-comment">
+          <p><em>${new Date(date).toLocaleDateString('nl-BE')}</em></p>
+          ${content}
+        </div>
+      </div>
+    `;
+    document.getElementById("posts").innerHTML += card;
   }
+}
+
 
   document.addEventListener("DOMContentLoaded", loadPosts);
 </script>
