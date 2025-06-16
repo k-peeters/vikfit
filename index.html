@@ -1118,7 +1118,7 @@
         if (!res.ok) throw new Error(`Bestand niet gevonden: ${file}`);
         const raw = await res.text();
 
-        const parsed = frontMatter(raw);
+       const parsed = frontMatter.parse(raw);
         const title = parsed.attributes.title || file.replace(/\.md$/, '');
         const date = parsed.attributes.date
           ? new Date(parsed.attributes.date).toLocaleDateString("nl-BE")
