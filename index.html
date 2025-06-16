@@ -1119,11 +1119,12 @@
       meta[key.trim()] = rest.join(':').trim();
     });
 
-    content = md.slice(metaMatch[0].length).trim(); // Verwijder frontmatter-blok uit content
+    content = md.slice(metaMatch[0].length).trim();  // ✅ Verwijder meta uit body
   }
 
   return { meta, content };
 }
+
 
 
   async function loadPosts() {
