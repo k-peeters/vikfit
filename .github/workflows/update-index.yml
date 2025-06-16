@@ -1,0 +1,30 @@
+name: 📄 Update blog index
+
+on:
+  push:
+    paths:
+      - 'vikposts/*.md'
+
+jobs:
+  generate-index:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    - name: Genereer index.json
+      run: node generate-index.js
+
+    - name: Commit en push index.json
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add vikposts/index.json
+        git diff --quiet || git commit -m "📄 index.json automatisch bijgewerkt"
+        git push

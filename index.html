@@ -187,7 +187,7 @@
   }
 
 
-      .intro, .timeline, .info, .appointment, .reviews {
+      .intro, .timeline, .info, .appointment, .reviews, .updates {
         padding: 2rem;
         max-width: 1200px;
         margin: auto;
@@ -197,7 +197,7 @@
         max-width: 1200px;
         margin: auto;
       }
-      .intro h2, .timeline h2, .info h2, .appointment h2, .slideshow h2, .reviews h2{
+      .intro h2, .timeline h2, .info h2, .appointment h2, .slideshow h2, .reviews h2, .updates h2{
         color: var(--accent-color);
         margin-bottom: 1rem;
       }
@@ -265,7 +265,12 @@
     justify-content: center;
     gap: 1.5rem;
   }
-
+  .posts-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
 
   .review-card {
     background: #ffffff;
@@ -282,8 +287,24 @@
     justify-content: flex-start;
     align-items: flex-start;
   }
+  .posts-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
 
+    width: 100%;
+    max-width: 350px;
+    height: 550px;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .posts-card:hover {
+    transform: scale(1.02);
+  }
 
   .review-card:hover {
     transform: scale(1.02);
@@ -295,13 +316,23 @@
     width: 100%;
     margin-bottom: 0.75rem;
   }
-
+.posts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
   .review-name {
     font-size: 1.2rem;
     font-weight: bold;
     color: #1e1e2f;
   }
-
+  .posts-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1e1e2f;
+  }
   .review-stars .star {
     font-size: 1.2rem;
     color: #ffd700;
@@ -885,6 +916,7 @@
   margin: 1.5rem auto;
   max-width: 600px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  height: 800px;
 }
 
 .blog-post-card img {
@@ -965,7 +997,7 @@
     </section>
     <section class="updates" id="updates">
   <h2>Laatste Posts</h2>
-  <div id="posts" class="review-container"></div>
+  <div id="posts" class="posts-container"></div>
 </section>
 
     <section class="reviews" id="reviews">
@@ -1165,9 +1197,9 @@
       const body = marked.parse(content);
 
       const card = `
-        <div class="review-card">
-          <div class="review-header">
-            <h3 class="review-name">${title}</h3>
+        <div class="posts-card">
+          <div class="posts-header">
+            <h3 class="posts-name">${title}</h3>
           </div>
           ${date ? `<p style="font-size: 0.85rem; color: #999; margin-top: -0.5rem;">${date}</p>` : ''}
           ${image ? `<img src="${image}" alt="${title}" style="width:100%; border-radius: 10px; margin: 0.5rem 0;">` : ''}

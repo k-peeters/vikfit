@@ -1,38 +1,17 @@
-const fs = require("fs");
-const path = require("path");
+// generate-index.js
+const fs = require('fs');
+const path = require('path');
 
-const postsDir = path.join(__dirname, "vikposts");
-const outputFile = path.join(postsDir, "index.json");
+const POSTS_DIR = path.join(__dirname, 'vikposts');
+const files = fs.readdirSync(POSTS_DIR)
+  .filter(f => f.endsWith('.md'));
 
-function extractMetadata(content) {
-  const match = content.match(/<!--([\s\S]*?)-->/);
-  if (!match) return {};
+files.sort(); // optioneel: chronologisch/alfabetisch sorteren
 
-  const lines = match[1].trim().split("\n");
-  const metadata = {};
+fs.writeFileSync(
+  path.join(POSTS_DIR, 'index.json'),
+  JSON.stringify(files, null, 2)
+);
 
-  lines.forEach(line => {
-    const [key, ...rest] = line.split(":");
-    metadata[key.trim()] = rest.join(":").trim();
-  });
+console.log('✅ index.json is bijgewerkt met', files.length, 'posts');
 
-  return metadata;
-}
-
-function generateIndex() {
-  const files = fs.readdirSync(postsDir).filter(file => file.endsWith(".md"));
-
-  const posts = files.map(filename => {
-    const content = fs.readFileSync(path.join(postsDir, filename), "utf-8");
-    const meta = extractMetadata(content);
-    return {
-      filename,
-      ...meta
-    };
-  });
-
-  fs.writeFileSync(outputFile, JSON.stringify(posts, null, 2));
-  console.log(`✅ index.json gegenereerd (${posts.length} posts)`);
-}
-
-generateIndex();
