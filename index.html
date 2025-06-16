@@ -1103,8 +1103,24 @@
   </div>
   <!-- Markdown parser -->
 <script type="module">
-  import frontMatter from 'https://cdn.jsdelivr.net/npm/front-matter@4.0.2/dist/front-matter.module.js';
   import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
+
+  function extractMetaAndContent(md) {
+    const metaRegex = /<!--([\s\S]*?)-->/;
+    const metaMatch = md.match(metaRegex);
+
+    const meta = {};
+    if (metaMatch) {
+      const lines = metaMatch[1].trim().split('\n');
+      lines.forEach(line => {
+        const [key, ...rest] = line.split(':');
+        meta[key.trim()] = rest.join(':').trim();
+      });
+    }
+
+    const content = md.replace(metaRegex, '').trim();
+    return { meta, content };
+  }
 
   async function loadPosts() {
     const files = ['2025-06-16-testpost.md'];
@@ -1113,16 +1129,15 @@
     for (const file of files) {
       try {
         const res = await fetch(`/vikposts/${file}`);
-        if (!res.ok) throw new Error(`Bestand niet gevonden: ${file}`);
+        if (!res.ok) throw new Error(`Niet gevonden: ${file}`);
         const raw = await res.text();
 
-        const parsed = frontMatter(raw);
-        const title = parsed.attributes.title || file.replace(/\.md$/, '');
-        const date = parsed.attributes.date
-          ? new Date(parsed.attributes.date).toLocaleDateString("nl-BE")
-          : '';
-        const image = parsed.attributes.image || '';
-        const body = marked(parsed.body);
+        const { meta, content } = extractMetaAndContent(raw);
+
+        const title = meta.title || file.replace(/\.md$/, '');
+        const date = meta.date ? new Date(meta.date).toLocaleDateString("nl-BE") : '';
+        const image = meta.image || '';
+        const body = marked.parse(content);
 
         const card = `
           <div class="review-card">
@@ -1143,6 +1158,7 @@
 
   document.addEventListener("DOMContentLoaded", loadPosts);
 </script>
+
 
 
 
