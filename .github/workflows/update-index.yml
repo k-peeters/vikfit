@@ -3,32 +3,26 @@ name: Commit en push index.json
 on:
   push:
     paths:
-      - 'vikposts/*.md'
+      - vikposts/**.md
+      - generate-index.js
 
 jobs:
   update-index:
     runs-on: ubuntu-latest
     env:
       TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-
     steps:
       - uses: actions/checkout@v3
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: Genereer index.json
-        run: node generate-index.js
-
+      - run: node generate-index.js
       - name: Commit en push index.json
         run: |
           git config user.name "Netlify CMS Bot"
           git config user.email "netlify-cms@example.com"
           git remote set-url origin https://${TOKEN}@github.com/k-peeters/vikfit.git
           git add vikposts/index.json
-          git commit -m "📝 index.json automatisch bijgewerkt" || echo "Niets te committen"
+          git commit -m "📝 index.json automatisch bijgewerkt" || echo "niets te committen"
           git push origin HEAD
-
-
