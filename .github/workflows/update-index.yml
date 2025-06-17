@@ -20,7 +20,7 @@ jobs:
         run: |
           git config user.name "Netlify CMS Bot"
           git config user.email "netlify-cms@example.com"
-          git remote set-url origin https://${{ secrets.PERSONAL_TOKEN }}@github.com/k-peeters/vikfit.git
+          git remote set-url origin https://k-peeters:${{ secrets.PERSONAL_TOKEN }}@github.com/k-peeters/vikfit.git
           git add vikposts/index.json
           git commit -m "📝 index.json automatisch bijgewerkt" || echo "niets te committen"
           git push origin HEAD
